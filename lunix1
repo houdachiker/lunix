@@ -1,0 +1,54 @@
+// Fonction pour basculer entre les formulaires de connexion et d'inscription
+function toggleForm() {
+    const loginBox = document.querySelector('.auth-box:first-child');
+    const signupBox = document.getElementById('signupBox');
+
+    if (loginBox.style.display === 'none') {
+        loginBox.style.display = 'block';    //affiche
+        signupBox.style.display = 'none';   //cache
+    } else {
+        loginBox.style.display = 'none';
+        signupBox.style.display = 'block';
+    }
+}
+
+// Fonction pour gérer la soumission du formulaire de connexion
+document.getElementById('loginForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Vérification des informations de connexion avec le localStorage
+    const storedUsername = localStorage.getItem('username');
+    const storedPassword = localStorage.getItem('password');
+
+    if (username === storedUsername && password === storedPassword) {
+        alert('Connexion réussie !');
+        // Rediriger l'utilisateur vers la deuxième page avec le Sidebar
+        window.location.href = 'projet1js.html';  // Redirige vers la page sécurisée
+    } else {
+        alert('Nom d\'utilisateur ou mot de passe incorrect.');
+    }
+});
+
+// Fonction pour gérer la soumission du formulaire d'inscription
+document.getElementById('signupForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const newUsername = document.getElementById('newUsername').value;
+    const newPassword = document.getElementById('newPassword').value;
+
+    // Vérification que l'utilisateur n'existe pas déjà dans le localStorage
+    if (localStorage.getItem('username') !== null) {
+        alert('Un compte existe déjà avec ce nom d\'utilisateur. Utilisez un autre nom.');
+        return;
+    }
+
+    // Sauvegarde des informations d'inscription dans le localStorage
+    localStorage.setItem('username', newUsername);
+    localStorage.setItem('password', newPassword);
+
+    alert('Inscription réussie ! Vous pouvez maintenant vous connecter.');
+
+    // Rediriger l'utilisateur vers la page de connexion après l'inscription
+    window.location.href = 'projetjs.html';  // Redirige vers la page de connexion
+});
